@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NFL Player Comparison</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>NFL Player Stats Comparison</h1>
+    <form action="/compare" method="POST">
+        <label for="player1">Player 1:</label>
+        <select name="player1" id="player1">
+            {% for player in players %}
+                <option value="{{ player }}"
+                    {% if player1 == player %} selected {% endif %}>
+                    {{ player }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="player2">Player 2:</label>
+        <select name="player2" id="player2">
+            {% for player in players %}
+                <option value="{{ player }}"
+                    {% if player2 == player %} selected {% endif %}>
+                    {{ player }}
+                </option>
+            {% endfor %}
+        </select>
+        
+        <button type="submit">Compare</button>
+    </form>
+
+    {% if player1 and player2 %}
+        <h2>Comparison: {{ player1 }} vs. {{ player2 }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Stat</th>
+                    <th>{{ player1 }}</th>
+                    <th>{{ player2 }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Passing Yards</td>
+                    <td>{{ stats1.passing_yards }}</td>
+                    <td>{{ stats2.passing_yards }}</td>
+                </tr>
+                <tr>
+                    <td>Touchdowns</td>
+                    <td>{{ stats1.tds }}</td>
+                    <td>{{ stats2.tds }}</td>
+                </tr>
+                <tr>
+                    <td>Interceptions</td>
+                    <td>{{ stats1.ints }}</td>
+                    <td>{{ stats2.ints }}</td>
+                </tr>
+                <!-- Add more rows for other stats as needed -->
+            </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>
